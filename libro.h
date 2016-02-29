@@ -17,7 +17,7 @@ class Libro{
 	string getNombre()const;
 	string getAutor()const;
 	string getEditorial()const;
-	void setIsbn(int isbn);
+	void setIsbn(string isbn);
 	void setNombre(string nombre);
 	void setAutor(string autor);
 	void setEditorial(string editorial);

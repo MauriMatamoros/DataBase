@@ -8,68 +8,44 @@
 #include <cstdlib>
 #include <iomanip>
 
+using std::vector;
 using std::string;
 using std::cout;
 using std::endl;
 using std::stringstream;
 
-Header::Header(string nombre, double precio){
-	this->nombre = nombre;
-	this->precio = precio;
-	this->ingredientes = new string[5];
-	for (int i=0; i< 5; i++)
-		this->ingredientes[i] = " " ;
+Header::Header(){
+	this->size=0;
+	this->al;
 }
 
-string Header::getNombre()const{
-	return this->nombre;
-}
-double Header::getPrecio()const{
-	return this->precio;
+int Header::getSize()const{
+	return this->size;
 }
 
-string Header::getIngredienteAt(int posicion)const{
-	return this->ingredientes[posicion];
+vector<int> Header::getAl()const{
+	return this->al;
 }
 
-void Header::setNombre(string nombre){
-	this->nombre = nombre;
+void Header::Size(){
+	this->size = this->size + 1;
 }
-void Header::setPrecio(double precio){
-	this->precio = precio;
+void Header::setAl(int position){
+	this->al = al;
 }
-
-void Header::setIngredienteAt(int posicion, string ingrediente){
-	this->ingredientes[posicion] = ingrediente;
-}
-
 
 string Header::toString(){
 	stringstream ss;
-	if(ingredientes[0]==" ")
+	ss << "Size: " << this->size;
+	return ss.str();
+}
+
+string Header::PrintAl(){
+	stringstream ss;
+	ss << " ";
+	for (int i = 0; i < this->al.size(); ++i)
 	{
-		ss << "Comida: " << this->nombre << " Precio: $" << this->precio;
-	}else if (ingredientes[1]==" ")
-	{
-		ss << "Comida: " << this->nombre << " Precio: $" << this->precio << endl <<"Ingredientes: "
-		<< endl << "	-" << ingredientes[0];
-	}else if(ingredientes[2]==" ")
-	{
-		ss << "Comida: " <<this->nombre << " Precio: $" << this->precio << endl <<"Ingredientes: "
-		<< endl <<"	-" << ingredientes[0] << endl <<"	-" << ingredientes[1];
-	}else if(ingredientes[3]==" ")
-	{
-		ss <<"Comida: " << this->nombre << " Precio: $" << this->precio << endl <<"Ingredientes: "
-		<< endl <<"	-" << ingredientes[0] << endl <<"	-" << ingredientes[1]<< endl <<"	-" << ingredientes[2];
-	}else if(ingredientes[4]==" ")
-	{
-		ss <<"Comida: " << this->nombre << " Precio: $" << this->precio << endl <<"Ingredientes: "
-		<< endl <<"	-" << ingredientes[0] << endl << "	-" <<ingredientes[1]<< endl <<"	-" << ingredientes[2] 
-		<< endl <<"	-" << ingredientes[3];
-	}else{
-	ss <<"Comida: " << this->nombre << " Precio: $" << this->precio << endl <<"Ingredientes: "
-	<< endl <<"	-" << ingredientes[0] << endl <<"	-" << ingredientes[1] << endl <<"	-" << ingredientes[2] << endl <<
-	"	-" << ingredientes[3] << endl <<"	-" << ingredientes[4]; 
+		ss << al.at(i) << " ";
 	}
 	return ss.str();
 }

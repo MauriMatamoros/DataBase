@@ -10,12 +10,15 @@ using std::string;
 class Header{
  protected:
  	int size;
+ 	bool dirty;
  	vector<int> al;
  public:
-	Header(int size);
+	Header();
 	int getSize()const;
 	vector<int> getAl()const;
-	void setSize(int size);
+	void Size();
+	void Clean();
 	void setAl(int position);
 	string toString();
+	string PrintAl();
 };
