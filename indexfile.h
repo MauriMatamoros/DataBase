@@ -11,11 +11,12 @@ using std::string;
 class Index_File{
  protected:
  	char* fname;
- 	vector<Nodo>* list;
+ 	vector<Nodo>* list_l;
+ 	vector<Nodo>* list_e;
  public:
-	Index_File(char* fname);
+	Index_File();
 	void Add(Nodo node);
 	int Find(long long int key);
-	void Reindex(char* fname);
+	void Reindex();
 	void Order();
 };

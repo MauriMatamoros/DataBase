@@ -58,15 +58,31 @@ int main(int argc, char *argv[]){
 					//leer
 					file.seekg(sizeof(Header));
 					Libro l;
+
 					file.read(reinterpret_cast<char*>(&l),sizeof(Libro));
 					cout << l.toString() << endl;
 
 			
 				}else if (respuesta == 2)
-				{
+				{//aruino
 			
 				}else if (respuesta == 3)
 				{
+					char llave[13];
+					cout << "Ingresar llave: " << endl;
+					cin >> llave;
+					cin.ignore();
+					file.seekg(sizeof(Header));
+					while(!file2.eof()){
+						file.seekg(sizeof(Header));
+						Libro l;
+					
+						file.read(reinterpret_cast<char*>(&l),sizeof(Editorial));
+						if (l.getIsbn().compare(llave))
+						{
+							l.setIsbn("************");
+						}
+					}
 			
 				}else if (respuesta == 4)
 				{
@@ -78,12 +94,48 @@ int main(int argc, char *argv[]){
 				int respuesta = menu2();
 				if (respuesta == 1)
 				{	
+					char id[13];
+					char nombre[50];
+					char direccion[50];
+					cout << "ID: " << endl;
+					cin.getline(id,13);
+					cout << "Nombre: " << endl;
+					cin.getline(nombre,50);
+					cout << "direccion: " << endl;
+					cin.getline(direccion,50);
+					Editorial editorial(id,nombre,direccion);
+					file2.seekp(0);
+					Header h;
+					file2.write((char*)&h,sizeof(Header));
+					file2.write((char*)&editorial,sizeof(Editorial));
+					file2.flush();
+					//leer
+					file2.seekg(sizeof(Header));
+					Editorial l;
+					
+					file2.read(reinterpret_cast<char*>(&l),sizeof(Editorial));
+					cout << l.toString() << endl;
 			
 				}else if (respuesta == 2)
-				{
+				{//arruinado
 			
 				}else if (respuesta == 3)
-				{
+				{//indexfile arruinado
+					char llave[13];
+					cout << "Ingresar llave: " << endl;
+					cin >> llave;
+					cin.ignore();
+					file2.seekg(sizeof(Header));
+					while(!file2.eof()){
+						file2.seekg(sizeof(Header));
+						Editorial l;
+					
+						file2.read(reinterpret_cast<char*>(&l),sizeof(Editorial));
+						if (l.getId().compare(llave))
+						{
+							l.setId("************");
+						}
+					}
 			
 				}else if (respuesta == 4)
 				{

@@ -22,7 +22,7 @@ Libro::Libro( char* isbn, char* nombre, char* autor, char* editorial){
 
 Libro::Libro(){}
 
-string Libro::getIsbn()const{
+string Libro::getIsbn(){
 	string retval(isbn);
 	return retval;
 }

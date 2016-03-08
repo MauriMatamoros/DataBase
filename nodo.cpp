@@ -15,7 +15,7 @@ using std::stringstream;
 using std::stoll;
 using namespace std;
 
-Nodo::Nodo(char* key, int rrn){
+Nodo::Nodo(const char* key, int rrn){
 	string retval(key);
 	long int a=stoll(retval);
 	this->key=a;

@@ -1,5 +1,8 @@
 #include "indexfile.h"
 #include "nodo.h"
+#include "header.h"
+#include "editorial.h"
+#include "libro.h"
 #include <iostream>
 #include <string>
 #include <cstring>
@@ -13,15 +16,14 @@ using namespace std;
 
 
 Index_File::Index_File(){
-	fstream file ("libros.in", ios::binary|ios::in|ios::out|ios::trunc);
-	fstream file2 ("editoriales.in", ios::binary|ios::in|ios::out|ios::trunc);
-	if(!file.is_open() && !file2.is_open()){
-
-	}else{
-		Reindex();
-	}
+	
 }
 void Index_File::Add(Nodo node){
+	if(){
+
+	}else{
+
+	}
 	this->list->push_back(node);
 	Order();
 }
@@ -36,19 +38,43 @@ int Index_File::Find(long long int key){
 	}
 }
 void Index_File::Reindex(){
-	fstream librosindex ("libros.in", ios::binary|ios::in|ios::out|ios::trunc);
-	fstream libros ("libros.bin", ios::binary|ios::in|ios::out|ios::trunc);
-	fstream editorialesindex ("editoriales.in", ios::binary|ios::in|ios::out|ios::trunc);
-	fstream editoriales ("editoriales.bin", ios::binary|ios::in|ios::out|ios::trunc);
-	while(!libros.eof()){
-		Nodo temp;
-		
+	list_l = new vector<Nodo>;
+	list_e = new vector<Nodo>;
+	fstream file ("libros.in", ios::binary|ios::in|ios::out|ios::trunc);
+	fstream file2 ("editoriales.in", ios::binary|ios::in|ios::out|ios::trunc);
+	if(!file.fail() && !file2.fail()){
+		file.seekg(sizeof(Header));
+		file2.seekg(sizeof(Header));
 
+		int contbook = 0;
+		int contedit = 0;
+
+		while(!file.eof()){
+			Libro ltemp;
+			file.read(reinterpret_cast<char*>(&ltemp),sizeof(Libro));
+			if(ltemp.getIsbn().c_str()[0] != '*'){
+				Nodo nodo(ltemp.getIsbn().c_str(),contbook);
+				list_l->push_back(nodo);
+				contbook++;
+			}
+		}
+		while(!file2.eof()){
+			Editorial etemp;
+			file.read(reinterpret_cast<char*>(&etemp),sizeof(Editorial));
+			if(etemp.getId().c_str()[0] != '*'){
+				Nodo nodo(etemp.getId().c_str(),contedit);
+				list_e->push_back(nodo);
+				contedit++;
+			}	
+		}
 	}
-	while(!editoriales.eof()){
-
+	else{
+		Reindex();
 	}
-
+	file.flush();
+	file.close();
+	file2.flush();
+	file2.close();
 }
 
 void Index_File::Order(){

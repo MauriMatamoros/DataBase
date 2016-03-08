@@ -19,6 +19,8 @@ Editorial::Editorial(char* id, char* nombre, char* direccion){
 	setDireccion(direccion);
 }
 
+Editorial::Editorial(){}
+
 string Editorial::getId()const{
 	string retval(id);
 	return retval;

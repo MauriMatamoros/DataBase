@@ -15,7 +15,7 @@ class Libro{
 	Libro(char* isbn, char* nombre, char* autor, char* editorial);
 	Libro();
 	//~Libro();
-	string getIsbn()const;
+	string getIsbn();
 	string getNombre()const;
 	string getAutor()const;
 	string getEditorial()const;

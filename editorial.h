@@ -12,6 +12,7 @@ class Editorial{
  	char direccion[50];
  public:
 	Editorial(char* id, char* nombre, char* direccion);
+	Editorial();
 	string getId()const;
 	string getNombre()const;
 	string getDireccion()const;
