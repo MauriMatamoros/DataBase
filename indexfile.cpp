@@ -16,7 +16,29 @@ using namespace std;
 
 
 Index_File::Index_File(){
-	
+	list_l = new vector<Nodo>;
+	list_e = new vector<Nodo>;
+	fstream file ("libros.in", ios::binary|ios::in|ios::out|ios::trunc);
+	fstream file2 ("editoriales.in", ios::binary|ios::in|ios::out|ios::trunc);
+	if(!file.fail() && !file2.fail()){
+		while(!file.eof()){
+			Nodo temp;
+			file.read(reinterpret_cast<char*>(&temp),sizeof(Nodo));
+			list_l->push_back(temp);
+		}
+		while(!file2.eof()){
+			Nodo temp;
+			file2.read(reinterpret_cast<char*>(&temp),sizeof(Nodo));
+			list_l->push_back(temp);
+		}
+	}
+	else{
+		Reindex();
+	}
+	file.flush();
+	file.close();
+	file2.flush();
+	file2.close();
 }
 void Index_File::Add(Nodo node){
 	if(){
@@ -40,8 +62,8 @@ int Index_File::Find(long long int key){
 void Index_File::Reindex(){
 	list_l = new vector<Nodo>;
 	list_e = new vector<Nodo>;
-	fstream file ("libros.in", ios::binary|ios::in|ios::out|ios::trunc);
-	fstream file2 ("editoriales.in", ios::binary|ios::in|ios::out|ios::trunc);
+	fstream file ("libros.bin", ios::binary|ios::in|ios::out|ios::trunc);
+	fstream file2 ("editoriales.bin", ios::binary|ios::in|ios::out|ios::trunc);
 	if(!file.fail() && !file2.fail()){
 		file.seekg(sizeof(Header));
 		file2.seekg(sizeof(Header));
@@ -60,16 +82,13 @@ void Index_File::Reindex(){
 		}
 		while(!file2.eof()){
 			Editorial etemp;
-			file.read(reinterpret_cast<char*>(&etemp),sizeof(Editorial));
+			file2.read(reinterpret_cast<char*>(&etemp),sizeof(Editorial));
 			if(etemp.getId().c_str()[0] != '*'){
 				Nodo nodo(etemp.getId().c_str(),contedit);
 				list_e->push_back(nodo);
 				contedit++;
 			}	
 		}
-	}
-	else{
-		Reindex();
 	}
 	file.flush();
 	file.close();
