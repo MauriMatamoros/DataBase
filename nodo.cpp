@@ -1,11 +1,17 @@
 #include "nodo.h"
-#include <iostream>
 #include <string>
-#include <cstring>
+#include <sstream>
+#include <iostream>
 #include <vector>
+#include <cmath>
+#include <cstring>
+#include <cstdlib>
+#include <iomanip>
 
-using std::vector;
 using std::string;
+using std::cout;
+using std::endl;
+using std::stringstream;
 
 Nodo::Nodo(long long int key, int rrn){
 	this->key=key;

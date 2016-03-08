@@ -1,5 +1,6 @@
 #pragma once 
 #include <iostream>
+#include "nodo.h"
 #include <string>
 #include <cstring>
 #include <vector>
@@ -9,10 +10,12 @@ using std::string;
 
 class Index_File{
  protected:
- 	vector<string> keys;
+ 	char* fname;
+ 	vector<Nodo>* list;
  public:
-	void Index_File();
-	void Add();
-	string Find(int posicion);
-	void Reindex();
+	Index_File(char* fname);
+	void Add(Nodo node);
+	int Find(long long int key);
+	void Reindex(char* fname);
+	void Order();
 };

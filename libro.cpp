@@ -13,14 +13,13 @@ using std::cout;
 using std::endl;
 using std::stringstream;
 
-Libro::Libro(string isbn, string nombre, string autor, string editorial){
+Libro::Libro(long long int isbn, string nombre, string autor, string editorial){
 	this->isbn = isbn;
 	this->nombre = nombre;
 	this->autor = autor;
 	this->editorial = editorial;
 }
-string
- Libro::getIsbn()const{
+long long int Libro::getIsbn()const{
 	return this->isbn;
 }
 
@@ -36,7 +35,7 @@ string Libro::getEditorial()const{
 	return this->editorial;
 }
 
-void Libro::setIsbn(string isbn){
+void Libro::setIsbn(long long int isbn){
 	this->isbn = isbn;
 }
 
