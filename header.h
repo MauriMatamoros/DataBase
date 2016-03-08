@@ -11,11 +11,11 @@ class Header{
  protected:
  	int size;
  	bool dirty;
- 	vector<int> al;
+	int al;
  public:
 	Header();
 	int getSize()const;
-	vector<int> getAl()const;
+	int getAl()const;
 	void Size();
 	void Clean();
 	void setAl(int position);

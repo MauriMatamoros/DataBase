@@ -12,26 +12,14 @@ using std::ifstream;
 using namespace std;
 
 
-Index_File::Index_File(char* fname){
-	/*string name(fname);
-	this->list = new std::vector<Nodo>;
-	fstream file(fname,ios::in|ios::binary);
-	if (file.fail())
-	{
-		file.close();
-		if (name.compare("libros.in"))
-		{
-			
-		}else{
+Index_File::Index_File(){
+	fstream file ("libros.in", ios::binary|ios::in|ios::out|ios::trunc);
+	fstream file2 ("editoriales.in", ios::binary|ios::in|ios::out|ios::trunc);
+	if(!file.is_open() && !file2.is_open()){
 
-		}
+	}else{
+		Reindex();
 	}
-	if(file.good()){
-		int bandera = 0;
-		while(!file.eof()){
-			//file.write();
-		}
-	}*/
 }
 void Index_File::Add(Nodo node){
 	this->list->push_back(node);
@@ -47,8 +35,19 @@ int Index_File::Find(long long int key){
 		}
 	}
 }
-void Index_File::Reindex(char* fname){
-	//
+void Index_File::Reindex(){
+	fstream librosindex ("libros.in", ios::binary|ios::in|ios::out|ios::trunc);
+	fstream libros ("libros.bin", ios::binary|ios::in|ios::out|ios::trunc);
+	fstream editorialesindex ("editoriales.in", ios::binary|ios::in|ios::out|ios::trunc);
+	fstream editoriales ("editoriales.bin", ios::binary|ios::in|ios::out|ios::trunc);
+	while(!libros.eof()){
+		Nodo temp;
+		
+
+	}
+	while(!editoriales.eof()){
+
+	}
 
 }
 

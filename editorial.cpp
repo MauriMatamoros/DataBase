@@ -13,39 +13,42 @@ using std::cout;
 using std::endl;
 using std::stringstream;
 
-Editorial::Editorial(int id, string nombre, string direccion){
-	this->id = id;
-	this->nombre = nombre;
-	this->direccion = direccion;
+Editorial::Editorial(char* id, char* nombre, char* direccion){
+	setId(id);
+	setNombre(nombre);
+	setDireccion(direccion);
 }
 
-int Editorial::getId()const{
-	return this->id;
+string Editorial::getId()const{
+	string retval(id);
+	return retval;
 }
 
 string Editorial::getNombre()const{
-	return this->nombre;
+	string retval(nombre);
+	return retval;
 }
 string Editorial::getDireccion()const{
-	return this->direccion;
+	string retval(nombre);
+	return retval;
 }
 
-void Editorial::setId(int id){
-	this->id = id;
+void Editorial::setId(char* id){
+	strcpy(this->id,id);
 }
 
-void Editorial::setNombre(string nombre){
-	this->nombre = nombre;
+void Editorial::setNombre(char* nombre){
+	strcpy(this->nombre,nombre);
 }
 
-void Editorial::setDireccion(string direccion){
-	this->direccion = direccion;
+void Editorial::setDireccion(char* direccion){
+	strcpy(this->direccion,direccion);
 }
 
 string Editorial::toString(){
 	stringstream ss;
-			ss << "Id: " << this->id << "Nombre: " << this->nombre << " Direccion: " 
-			<< this->direccion;
+			ss << "Id: " << id << " Nombre: " << nombre << " Direccion: " 
+			<< direccion;
 	
 	return ss.str();
 }

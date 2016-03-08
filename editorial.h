@@ -7,16 +7,17 @@ using std::string;
 
 class Editorial{
  protected:
- 	int id;
- 	string nombre;
- 	string direccion;
+ 	char id[13];
+ 	char nombre[50];
+ 	char direccion[50];
  public:
-	Editorial(int id, string nombre, string direccion);
-	int getId()const;
+	Editorial(char* id, char* nombre, char* direccion);
+	string getId()const;
 	string getNombre()const;
 	string getDireccion()const;
-	void setId(int id);
-	void setNombre(string nombre);
-	void setDireccion(string direccion);
+	void setId(char* id);
+	void setNombre(char* nombre);
+	void setDireccion(char* direccion);
+	~Editorial();
 	string toString();
 };

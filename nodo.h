@@ -12,10 +12,10 @@ class Nodo{
  	long long int key;
  	int rrn;
  public:
- 	Nodo(long long int key, int rnn);
+ 	Nodo(char* key, int rnn);
 	long long int getKey();
 	int getRrn();
-	void setKey(long long int key);
+	void setKey(char* key);
 	void setRrn(int rrn);
 	string toString();
 };

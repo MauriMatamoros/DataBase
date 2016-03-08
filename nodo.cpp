@@ -12,9 +12,13 @@ using std::string;
 using std::cout;
 using std::endl;
 using std::stringstream;
+using std::stoll;
+using namespace std;
 
-Nodo::Nodo(long long int key, int rrn){
-	this->key=key;
+Nodo::Nodo(char* key, int rrn){
+	string retval(key);
+	long int a=stoll(retval);
+	this->key=a;
 	this->rrn=rrn;
 }
 long long int Nodo::getKey(){
@@ -23,14 +27,15 @@ long long int Nodo::getKey(){
 int Nodo::getRrn(){
 	return this->rrn;
 }
-void Nodo::setKey(long long int key){
-	this->key=key;
+void Nodo::setKey(char* key){
+	string llave(key);
+	this->key=stoll(llave);
 }
 void Nodo::setRrn(int rrn){
 	this->rrn=rrn;
 }
 string Nodo::toString(){
 	stringstream ss;
-	ss << "Key: " << this->key << " RRN: " << this->rrn;
+	ss << "Key: " << key << " RRN: " << this->rrn;
 	return ss.str();
 }

@@ -23,7 +23,7 @@ int Header::getSize()const{
 	return this->size;
 }
 
-vector<int> Header::getAl()const{
+int Header::getAl()const{
 	return this->al;
 }
 
@@ -42,10 +42,6 @@ string Header::toString(){
 
 string Header::PrintAl(){
 	stringstream ss;
-	ss << " ";
-	for (int i = 0; i < this->al.size(); ++i)
-	{
-		ss << al.at(i) << " ";
-	}
+	ss << al << endl;
 	return ss.str();
 }

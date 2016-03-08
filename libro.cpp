@@ -13,47 +13,54 @@ using std::cout;
 using std::endl;
 using std::stringstream;
 
-Libro::Libro(long long int isbn, string nombre, string autor, string editorial){
-	this->isbn = isbn;
-	this->nombre = nombre;
-	this->autor = autor;
-	this->editorial = editorial;
+Libro::Libro( char* isbn, char* nombre, char* autor, char* editorial){
+	setIsbn(isbn);
+	setNombre(nombre);
+	setAutor(autor);
+	setEditorial(editorial);
 }
-long long int Libro::getIsbn()const{
-	return this->isbn;
+
+Libro::Libro(){}
+
+string Libro::getIsbn()const{
+	string retval(isbn);
+	return retval;
 }
 
 string Libro::getNombre()const{
-	return this->nombre;
+	string retval(nombre);
+	return retval;
 }
 
 string Libro::getAutor()const{
-	return this->autor;
+	string retval(autor);
+	return retval;
 }
 
 string Libro::getEditorial()const{
-	return this->editorial;
+	string retval(editorial);
+	return retval;
 }
 
-void Libro::setIsbn(long long int isbn){
-	this->isbn = isbn;
+void Libro::setIsbn(char* isbn){
+	strcpy(this->isbn,isbn);
 }
 
-void Libro::setNombre(string nombre){
-	this->nombre = nombre;
+void Libro::setNombre(char* nombre){
+	strcpy(this->nombre,nombre);
 }
-void Libro::setAutor(string autor){
-	this->autor = autor;
+void Libro::setAutor(char* autor){
+	strcpy(this->autor,autor);
 }
 
-void Libro::setEditorial(string editorial){
-	this->editorial = editorial;
+void Libro::setEditorial(char* editorial){
+	strcpy(this->editorial,editorial);
 }
 
 string Libro::toString(){
 	stringstream ss;
-			ss << "Isbn: " << this->isbn << "Nombre: " << this->nombre << " Autor: " 
-			<< this->autor << "Editorial: " << this->editorial;
+			ss << "Isbn: " << isbn << " Nombre: " << nombre << " Autor: " 
+			<< autor << " Editorial: " << editorial;
 	
 	return ss.str();
 }

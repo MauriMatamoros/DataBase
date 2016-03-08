@@ -7,19 +7,21 @@ using std::string;
 
 class Libro{
  protected:
- 	long long int isbn;
- 	string nombre;
- 	string autor;
- 	string editorial;
+ 	char isbn[13];
+ 	char nombre[50];
+ 	char autor[50];
+ 	char editorial[50];
  public:
-	Libro(string isbn, string nombre, string autor, string editorial);
-	long long int getIsbn()const;
+	Libro(char* isbn, char* nombre, char* autor, char* editorial);
+	Libro();
+	//~Libro();
+	string getIsbn()const;
 	string getNombre()const;
 	string getAutor()const;
 	string getEditorial()const;
-	void setIsbn(long long int isbn);
-	void setNombre(string nombre);
-	void setAutor(string autor);
-	void setEditorial(string editorial);
+	void setIsbn(char* isbn);
+	void setNombre(char* nombre);
+	void setAutor(char* autor);
+	void setEditorial(char* editorial);
 	string toString();
 };
