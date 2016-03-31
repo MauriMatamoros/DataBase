@@ -9,11 +9,12 @@ using std::string;
 
 class Nodo{
  protected:
- 	long long int key;
+ 	char key[14];
  	int rrn;
  public:
- 	Nodo(const char* key, int rnn);
-	long long int getKey();
+ 	Nodo(char* key, int rnn);
+ 	Nodo();
+	string getKey();
 	int getRrn();
 	void setKey(char* key);
 	void setRrn(int rrn);

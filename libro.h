@@ -7,14 +7,14 @@ using std::string;
 
 class Libro{
  protected:
- 	char isbn[13];
- 	char nombre[50];
- 	char autor[50];
- 	char editorial[50];
+ 	char isbn[14];
+ 	char nombre[21];
+ 	char autor[21];
+ 	char editorial[21];
  public:
 	Libro(char* isbn, char* nombre, char* autor, char* editorial);
 	Libro();
-	//~Libro();
+	~Libro();
 	string getIsbn();
 	string getNombre()const;
 	string getAutor()const;

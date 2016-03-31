@@ -15,21 +15,21 @@ using std::stringstream;
 using std::stoll;
 using namespace std;
 
-Nodo::Nodo(const char* key, int rrn){
-	string retval(key);
-	long int a=stoll(retval);
-	this->key=a;
-	this->rrn=rrn;
+Nodo::Nodo(char* key, int rrn){
+	setKey(key);
+	setRrn(rrn);
 }
-long long int Nodo::getKey(){
+Nodo::Nodo(){
+}
+
+string Nodo::getKey(){
 	return this->key;
 }
 int Nodo::getRrn(){
 	return this->rrn;
 }
 void Nodo::setKey(char* key){
-	string llave(key);
-	this->key=stoll(llave);
+	strcpy(this->key,key);
 }
 void Nodo::setRrn(int rrn){
 	this->rrn=rrn;

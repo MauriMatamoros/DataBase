@@ -16,159 +16,128 @@ int menu2();
 Libro libros();
 
 int main(int argc, char *argv[]){
-	fstream file ("libros.bin", ios::binary|ios::in|ios::out|ios::trunc);
-	fstream file2 ("editorial.bin", ios::binary|ios::in|ios::out|ios::trunc);
-	if(!file.is_open() && !file2.is_open()){
-
-	}else{
-		
-		
-	
-		
 	bool valid = false;
 	while(!valid){
-	int respuesta2 = menu();
-	
-	
-
-			if (respuesta2 == 1)
+		int opcion = menu();
+		if (opcion == 1)
+		{
+			int option = menu2();// operaciones de libros
+			if (option == 1)//agregar
 			{
-				int respuesta = menu2();
-				if (respuesta == 1)
-				{
-
-					char isbn[13];
-					char nombre[50];
-					char autor[50];
-					char editorial[50];
-					cout << "ISBN: " << endl;
-					cin.getline(isbn,13);
-					cout << "Nombre: " << endl;
-					cin.getline(nombre,50);
-					cout << "Autor: " << endl;
-					cin.getline(autor,50);
-					cout << "Editorial: " << endl;
-					cin.getline(editorial,50);
-					Libro book(isbn,nombre,autor,editorial);
-					file.seekp(0);
-					Header h;
-					file.write((char*)&h,sizeof(Header));
-					file.write((char*)&book,sizeof(Libro));
-					file.flush();
-					//leer
-					file.seekg(sizeof(Header));
-					Libro l;
-
-					file.read(reinterpret_cast<char*>(&l),sizeof(Libro));
-					cout << l.toString() << endl;
-
-			
-				}else if (respuesta == 2)
-				{//aruino
-			
-				}else if (respuesta == 3)
-				{
-					char llave[13];
-					cout << "Ingresar llave: " << endl;
-					cin >> llave;
-					cin.ignore();
-					file.seekg(sizeof(Header));
-					while(!file2.eof()){
-						file.seekg(sizeof(Header));
-						Libro l;
-					
-						file.read(reinterpret_cast<char*>(&l),sizeof(Editorial));
-						if (l.getIsbn().compare(llave))
-						{
-							l.setIsbn("************");
-						}
-					}
-			
-				}else if (respuesta == 4)
-				{
-			
-				}else{
-
+				/* code */
+				char isbn[14];
+				char nombre[21];
+				char autor[21];
+				char editorial[14];
+				cout << "Ingrese isbn: " << endl;
+				cin.getline(isbn,14);
+				cout << "Ingrese nombre: " << endl;
+				cin.getline(nombre,21);
+				cout << "Ingrese autor: " << endl;
+				cin.getline(autor,21);
+				cout << "Ingrese editorial: " << endl;
+				cin.getline(editorial,14);
+				//debugging
+				/*
+				cout << "isbn" << isbn << endl;
+				cout << "nombre" << nombre << endl;
+				cout << "autor" << autor << endl;
+				cout << "editorial" << editorial << endl;
+				*/
+				//debugging
+				Libro temp(isbn,nombre,autor,editorial);
+				fstream archivo("libro.bin",ios::in|ios::out|ios::binary);
+				if(archivo.good()){
+					cout << sizeof(Libro) << endl;
+					cout << sizeof(temp) << endl;
+					archivo.write((char*)&temp,sizeof(Libro));//Escribir en archivo
+					archivo.flush();
+					archivo.close();
 				}
-			}else if(respuesta2 == 2){
-				int respuesta = menu2();
-				if (respuesta == 1)
-				{	
-					char id[13];
-					char nombre[50];
-					char direccion[50];
-					cout << "ID: " << endl;
-					cin.getline(id,13);
-					cout << "Nombre: " << endl;
-					cin.getline(nombre,50);
-					cout << "direccion: " << endl;
-					cin.getline(direccion,50);
-					Editorial editorial(id,nombre,direccion);
-					file2.seekp(0);
-					Header h;
-					file2.write((char*)&h,sizeof(Header));
-					file2.write((char*)&editorial,sizeof(Editorial));
-					file2.flush();
-					//leer
-					file2.seekg(sizeof(Header));
-					Editorial l;
-					
-					file2.read(reinterpret_cast<char*>(&l),sizeof(Editorial));
-					cout << l.toString() << endl;
-			
-				}else if (respuesta == 2)
-				{//arruinado
-			
-				}else if (respuesta == 3)
-				{//indexfile arruinado
-					char llave[13];
-					cout << "Ingresar llave: " << endl;
-					cin >> llave;
-					cin.ignore();
-					file2.seekg(sizeof(Header));
-					while(!file2.eof()){
-						file2.seekg(sizeof(Header));
-						Editorial l;
-					
-						file2.read(reinterpret_cast<char*>(&l),sizeof(Editorial));
-						if (l.getId().compare(llave))
-						{
-							l.setId("************");
-						}
-					}
-			
-				}else if (respuesta == 4)
-				{
-			
-				}else{
 
-				}	
-		
-			}else{
-				valid = true;
+			}else if (option == 2)//modificar
+			{
+				/* code */
+
+			}else if (option == 3)//eliminar
+			{
+				/* code */
+				char isbn[14];
+				cout << "Ingrese isbn: " << endl;
+				cin.getline(isbn,14);
+			}else if (option == 4)//buscar
+			{
+				/* code */
+				char isbn[14];
+				cout << "Ingrese isbn: " << endl;
+				cin.getline(isbn,14);
+			}else if (option == 5)//defragmentar
+			{
+				/* code */
 			}
-		file.close();
-		return 0;
-	}
-	}
-}
-int menu(){
-	cout << "1. libros" << endl
-	<< "2. editoriales" << endl << "3. terminar" << endl;
-	int respuesta = 0;
-	cin >> respuesta;
-	cin.ignore();
-	return respuesta;
-}
+		}else if (opcion == 2)
+		{
+			int option = menu2();// operaciones de editoriales
+			if (option == 1)//agregar
+			{
+				/* code */
+				char id[14];
+				char nombre[21];
+				char direccion[21];
+				cout << "Ingrese id: " << endl;
+				cin.getline(id,14);
+				cout << "Ingrese nombre: " << endl;
+				cin.getline(nombre,21);
+				cout << "Ingrese direccion: " << endl;
+				cin.getline(direccion,21);
+				Editorial* temp = new Editorial(id,nombre,direccion);
 
-int menu2(){
-	cout << "1. agregar" << endl
-	<< "2. modificar" << endl << 
-	"3. eliminar" << endl <<
-	"4. buscar" << endl <<"5. defragmentar" << endl;
-	int respuesta = 0;
-	cin >> respuesta;
-	cin.ignore();
-	return respuesta;
+			}else if (option == 2)//modificar
+			{
+				/* code */
+
+			}else if (option == 3)//eliminar
+			{
+				/* code */
+				char id[14];
+				cout << "Ingrese id: " << endl;
+				cin.getline(id,14);
+			}else if (option == 4)//buscar
+			{
+				/* code */
+				char id[14];
+				cout << "Ingrese id: " << endl;
+				cin.getline(id,14);
+			}else if (option == 5)//defragmentar
+			{
+				/* code */
+			}
+		}else if (opcion == 3)//salir del programa
+		{
+			valid = true;
+		}
+	}
+	return 0;
 }
+	
+
+	int menu(){
+		cout << "**********M E N U**********" << endl << "1. libros" << endl
+		<< "2. editoriales" << endl << "3. terminar" << endl;
+		int respuesta = 0;
+		cin >> respuesta;
+		cin.ignore();
+		return respuesta;
+	}
+
+	int menu2(){
+		cout << "*********O P E R A C I O N E S*********" << endl <<"1. agregar" << endl
+		<< "2. modificar" << endl << 
+		"3. eliminar" << endl <<
+		"4. buscar" << endl <<"5. defragmentar" << endl;
+		int respuesta = 0;
+		cin >> respuesta;
+		cin.ignore();
+		return respuesta;
+	}
 

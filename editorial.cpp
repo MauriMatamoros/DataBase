@@ -14,12 +14,19 @@ using std::endl;
 using std::stringstream;
 
 Editorial::Editorial(char* id, char* nombre, char* direccion){
+	//id = new char[14];
+	//nombre = new char[21];
+	//direccion = new char[21];
 	setId(id);
 	setNombre(nombre);
 	setDireccion(direccion);
 }
 
-Editorial::Editorial(){}
+Editorial::Editorial(){
+}
+
+Editorial::~Editorial(){
+}
 
 string Editorial::getId()const{
 	string retval(id);

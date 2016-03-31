@@ -14,13 +14,26 @@ using std::endl;
 using std::stringstream;
 
 Libro::Libro( char* isbn, char* nombre, char* autor, char* editorial){
+	//isbn = new char[14];
+	//nombre = new char[21];
+	//autor = new char[21];
+	//editorial = new char[14];
+	strcpy(this->isbn, isbn);
 	setIsbn(isbn);
 	setNombre(nombre);
 	setAutor(autor);
 	setEditorial(editorial);
 }
 
-Libro::Libro(){}
+Libro::Libro(){
+	//isbn = new char[13];
+	//nombre = new char[20];
+	//autor = new char[20];
+	//editorial = new char[13];
+}
+
+Libro::~Libro(){
+}
 
 string Libro::getIsbn(){
 	string retval(isbn);
