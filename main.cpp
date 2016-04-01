@@ -110,6 +110,128 @@ int main(int argc, char *argv[]){
 			}else if (option == 2)//modificar
 			{
 				/* code */
+				char isbn[14];
+				cout << "Ingrese isbn: " << endl;
+				cin.getline(isbn,14);
+				fstream archivo("libro.bin",ios::in| ios::out | ios::binary);
+				Header header;
+				archivo.read(reinterpret_cast<char*>(&header),sizeof(Header));
+				cout << "Header: " << header.toString() << endl;
+				string tocompare(isbn);
+				while (true){
+					Libro tempo;
+					long int ofset = archivo.tellp();
+					archivo.read(reinterpret_cast<char*>(&tempo),sizeof(Libro));
+					if(archivo.eof()|| tocompare.compare(tempo.getIsbn()) == 0){
+						tocompare[0]='*';
+						tempo.setIsbn(const_cast<char*>(tocompare.c_str()));
+						if (header.getAl() != -1)
+						{
+							/* code */
+							string longint = std::to_string(header.getAl());
+							tempo.setEditorial(const_cast<char*>(longint.c_str()));
+						}else{
+							string longint = std::to_string(-2);
+							tempo.setEditorial(const_cast<char*>(longint.c_str()));
+						}
+						archivo.seekg(0,ios::beg);
+						//Header header;
+						archivo.read(reinterpret_cast<char*>(&header),sizeof(Header));
+						header.Decrease();
+						header.setAl(ofset);
+						archivo.seekg(0,ios::beg);
+						archivo.write((char*)&header,sizeof(Header));
+						archivo.seekp(ofset, ios::beg);
+						archivo.write((char*)&tempo,sizeof(Libro));
+						break;
+					}
+				}
+				archivo.flush();
+				archivo.close();
+
+				/* code */
+				//char isbn[14];
+				char nombre[21];
+				char autor[21];
+				char editorial[14];
+				cout << "Ingrese isbn: " << endl;
+				cin.getline(isbn,14);
+				cout << "Ingrese nombre: " << endl;
+				cin.getline(nombre,21);
+				cout << "Ingrese autor: " << endl;
+				cin.getline(autor,21);
+				cout << "Ingrese editorial: " << endl;
+				cin.getline(editorial,14);
+				//debugging
+				/*
+				cout << "isbn" << isbn << endl;
+				cout << "nombre" << nombre << endl;
+				cout << "autor" << autor << endl;
+				cout << "editorial" << editorial << endl;
+				*/
+				//debugging
+				Libro temp(isbn,nombre,autor,editorial);
+				bool file_exists = exists_test("libro.bin");
+				if (file_exists)//check si existe el archivo
+				{
+					cout<< "Entro" << endl;
+					fstream archivo("libro.bin",ios::in | ios::out | ios::binary);
+					if(archivo.good()){
+						archivo.seekg(0,ios::beg);
+						Header header;
+						archivo.read(reinterpret_cast<char*>(&header),sizeof(Header));
+						if (header.getAl() != -1)
+						{
+							archivo.seekg(0,ios::beg);
+							Header header;
+							archivo.read(reinterpret_cast<char*>(&header),sizeof(Header));
+							archivo.seekp(header.getAl(),ios::beg);
+							Libro tempo;
+							long int posicion = archivo.tellp();
+							archivo.read(reinterpret_cast<char*>(&tempo),sizeof(Libro));
+							long int chancho = -1;
+							if (header.getAl() == chancho )
+							{
+								//cout << "entro chancho" << endl;
+								header.setAl(-1);
+							}else{
+								//cout << "no soy chancho" << endl;
+								header.setAl(stoll(tempo.getEditorial()));
+							}
+							archivo.seekp(0,ios::beg);
+							archivo.write((char*)&header,sizeof(Header));
+							archivo.seekp(header.getAl(),ios::beg);
+							archivo.write((char*)&temp,sizeof(Libro));
+							archivo.flush();
+							archivo.close();
+						}else{
+							archivo.seekg(0,ios::beg);
+							Header header;
+							archivo.read(reinterpret_cast<char*>(&header),sizeof(Header));
+							header.Size();
+							archivo.seekp(0,ios::beg);
+							archivo.write((char*)&header,sizeof(Header));
+							archivo.seekp(0,ios::end);
+							cout << "Existo y excribieron en mi" << endl;
+							archivo.write((char*)&temp,sizeof(Libro));
+							archivo.flush();
+							archivo.close();
+						}
+					}
+				}else{
+					fstream archivo("libro.bin", ios::out | ios::binary);
+					//cout << "entro no existe" << endl;
+					if(archivo.good()){
+						//cout << "No existo pero me crearon" << endl;
+						Header header;
+						header.Size();
+						archivo.write((char*)&header,sizeof(Header));
+						archivo.write((char*)&temp,sizeof(Libro));
+						archivo.flush();
+						archivo.close();
+					}
+				}		
+
 
 			}else if (option == 3)//eliminar
 			{
@@ -154,10 +276,20 @@ int main(int argc, char *argv[]){
 				archivo.close();
 			}else if (option == 4)//buscar
 			{
+				Index_File indice;
 				/* code */
 				char isbn[14];
 				cout << "Ingrese isbn: " << endl;
 				cin.getline(isbn,14);
+
+				fstream archivo("libro.bin",ios::in| ios::out | ios::binary);
+				long int position = indice.find(isbn);
+				cout << position <<endl;
+				Libro temp;
+				archivo.seekg(position,ios::beg);
+				archivo.read(reinterpret_cast<char*>(&temp),sizeof(Libro));
+
+				cout << temp.toString() << endl;
 			}else if (option == 5)//defragmentar
 			{
 				/* code */

@@ -13,7 +13,7 @@ class Index_File{
  	vector<Nodo>* list;
  	//vector<Nodo>* list_e;
  public:
-	Index_File(const char* fname);
+	Index_File();
 	~Index_File();
 	void add(Nodo nodo);
 	void remove(const char* key);
@@ -23,3 +23,4 @@ class Index_File{
 };
 
 bool compare(Nodo leftnode, Nodo rightnode);
+bool exists_test1(const std::string& name);

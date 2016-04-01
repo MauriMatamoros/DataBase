@@ -1,5 +1,7 @@
 #include "editorial.h"
 #include "libro.h"
+#include "indexfile.h"
+#include "header.h"
 #include <iostream>
 #include <string>
 #include <cstring>
@@ -13,25 +15,35 @@ using std::ifstream;
 using namespace std;
 
 
-Index_File::Index_File(const char* fname){
+Index_File::Index_File(){
 	list = new vector<Nodo>;
 
-	ifstream index(fname,ios::in|ios::binary);
-	if(index.fail()){
-		index.close();
-		ifstream datos(fname, ios::in | ios::binary);
+	//
+	bool file_exists = exists_test1("indice.bin");
+	//fstream index("indice.bin",ios::in|ios::out|ios::binary);
+	fstream datos("libro.bin", ios::in|ios::out|ios::binary);
+	//if(!file_exists){
+		//index.close();
+		//fstream datos("libro.bin", ios::in | ios::binary);
 		if(datos.good()){
-			datos.seekg(sizeof(Header));
+			datos.seekg(sizeof(Header),ios::beg);
 
-			while(!datos.eof()){
+			while(true){
 				Libro libro;
+				long int ref = datos.tellg();
 				datos.read(reinterpret_cast<char*>(&libro),sizeof(Libro));
-				if(!libro.getIsbn().c_str()[0] == '*'){
-					Nodo nodo(const_cast<char *>(libro.getIsbn().c_str()),datos.tellg());
+				if(datos.eof())
+					break;
+				if(libro.getIsbn().c_str()[0] != '*'){
+					Nodo nodo(const_cast<char *>(libro.getIsbn().c_str()),ref);
+					cout << "En indice: " << libro.getIsbn().c_str() << endl;
 					list->push_back(nodo);
 				}
 			}
 			order();
+			for (int i = 0; i < list->size(); ++i){
+				cout << list->at(i).getKey() << endl;
+			}
 		}
 		datos.close();
 
@@ -42,14 +54,14 @@ Index_File::Index_File(const char* fname){
 		}
 		index.flush();
 		index.close();
-	}
-	if(index.good()){
+	/*}
+	if(file_exists){
 		while(!index.eof()){
 			Nodo nodo;
 			index.read(reinterpret_cast<char*>(&nodo),sizeof(Nodo));
 			list->push_back(nodo);
 		}
-	}
+	}*/
 }
 Index_File::~Index_File(){
 	delete list;
@@ -70,10 +82,14 @@ void Index_File::remove(const char* key){
 		}
 	}
 }
+
 long int Index_File::find(const char* key){
 	string look(key);
 
+	cout << "Buscando: " << look << endl;
+
 	for (int i = 0; i < list->size(); ++i)	{
+		cout << list->at(i).getKey() << endl;
 		if(look == list->at(i).getKey()){
 			return list->at(i).getRrn();
 		}
@@ -118,4 +134,15 @@ bool compare(Nodo leftnode, Nodo rightnode){
 	if(stoll(leftnode.getKey()) < stoll(rightnode.getKey()))
 		return true;
 	return false;
+}
+
+bool exists_test1(const std::string& name){
+	if (FILE *file = fopen(name.c_str(), "r")) {
+		fclose(file);
+		//cout << "soy true" << endl;
+		return true;
+	} else {
+		//cout << "soy false" << endl;
+		return false;
+	} 
 }
