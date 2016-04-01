@@ -15,8 +15,8 @@ using std::endl;
 using std::stringstream;
 
 Header::Header(){
-	this->size=0;
-	this->al;
+	this->size = 0;
+	this->al = -1;
 }
 
 int Header::getSize()const{
@@ -36,7 +36,7 @@ void Header::setAl(int position){
 
 string Header::toString(){
 	stringstream ss;
-	ss << "Size: " << this->size;
+	ss << "Size: " << size << " AvailList: " << al << endl;
 	return ss.str();
 }
 

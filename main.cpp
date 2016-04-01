@@ -22,9 +22,9 @@ int main(int argc, char *argv[]){
 		int opcion = menu();
 		if (opcion == 1)
 		{
-			int option = menu2();// operaciones de libros
-			if (option == 1)//agregar
-			{
+			int option = menu2();
+			if(option == 1)//agregar
+			{	
 				/* code */
 				char isbn[14];
 				char nombre[21];
@@ -47,35 +47,47 @@ int main(int argc, char *argv[]){
 				*/
 				//debugging
 				Libro temp(isbn,nombre,autor,editorial);
-				if (exists_test("libro.bin"))//check si existe el archivo
+				bool file_exists = exists_test("libro.bin");
+				if (file_exists)//check si existe el archivo
 				{
+					cout<< "Entro" << endl;
 					fstream archivo("libro.bin",ios::in | ios::out | ios::binary);
 					if(archivo.good()){
-					cout << "Existo y excribieron en mi" << endl;
-					archivo.write((char*)&temp,sizeof(Libro));//Escribir en archivo
-					archivo.flush();
-					archivo.close();
-				}
-				}else{
-					fstream archivo("libro.bin", ios::out);
-					if(archivo.good()){
-						cout << "No existo pero me crearon" << endl;
-						archivo.write((char*)&temp,sizeof(Libro));//Escribir en archivo
+						archivo.seekg(0,ios::beg);
+						Header header;
+						archivo.read(reinterpret_cast<char*>(&header),sizeof(Header));
+						header.Size();
+						archivo.seekp(0,ios::beg);
+						archivo.write((char*)&header,sizeof(Header));
+						archivo.seekp(0,ios::end);
+						cout << "Existo y excribieron en mi" << endl;
+						archivo.write((char*)&temp,sizeof(Libro));
 						archivo.flush();
 						archivo.close();
 					}
-				}
-
+				}else{
+					fstream archivo("libro.bin", ios::out | ios::binary);
+					cout << "entro no existe" << endl;
+					if(archivo.good()){
+						cout << "No existo pero me crearon" << endl;
+						Header header;
+						header.Size();
+						archivo.write((char*)&header,sizeof(Header));
+						archivo.write((char*)&temp,sizeof(Libro));
+						archivo.flush();
+						archivo.close();
+					}
+				}		
 			}else if (option == 2)//modificar
 			{
 				/* code */
 
 			}else if (option == 3)//eliminar
 			{
-				/* code */
-				char isbn[14];
-				cout << "Ingrese isbn: " << endl;
-				cin.getline(isbn,14);
+					/* code */
+					char isbn[14];
+					cout << "Ingrese isbn: " << endl;
+					cin.getline(isbn,14);
 			}else if (option == 4)//buscar
 			{
 				/* code */
@@ -85,6 +97,23 @@ int main(int argc, char *argv[]){
 			}else if (option == 5)//defragmentar
 			{
 				/* code */
+			}else if (option == 6)//leer
+			{
+				/* code */
+				fstream archivo("libro.bin",ios::in | ios::binary);
+				cout << "**********Read debugging*******" << endl;
+				Header header;
+				archivo.read(reinterpret_cast<char*>(&header),sizeof(Header));
+				cout << "Header: " << header.toString() << endl;
+				while (true){
+					Libro temp;
+					archivo.read(reinterpret_cast<char*>(&temp),sizeof(Libro));
+					if(archivo.eof()){
+						break;
+					}
+					cout << "Libro: " << temp.toString() << endl;
+				}
+				archivo.close();
 			}
 		}else if (opcion == 2)
 		{
@@ -102,7 +131,6 @@ int main(int argc, char *argv[]){
 				cout << "Ingrese direccion: " << endl;
 				cin.getline(direccion,21);
 				Editorial* temp = new Editorial(id,nombre,direccion);
-
 			}else if (option == 2)//modificar
 			{
 				/* code */
@@ -122,6 +150,9 @@ int main(int argc, char *argv[]){
 			}else if (option == 5)//defragmentar
 			{
 				/* code */
+			}else if (option == 6)//leer
+			{
+					/* code */
 			}
 		}else if (opcion == 3)//salir del programa
 		{
@@ -130,33 +161,36 @@ int main(int argc, char *argv[]){
 	}
 	return 0;
 }
-	
+
+
 
 int menu(){
-		cout << "**********M E N U**********" << endl << "1. libros" << endl
-		<< "2. editoriales" << endl << "3. terminar" << endl;
-		int respuesta = 0;
-		cin >> respuesta;
-		cin.ignore();
-		return respuesta;
+	cout << "**********M E N U**********" << endl << "1. libros" << endl
+	<< "2. editoriales" << endl << "3. terminar" << endl;
+	int respuesta = 0;
+	cin >> respuesta;
+	cin.ignore();
+	return respuesta;
 }
 
 int menu2(){
-		cout << "*********O P E R A C I O N E S*********" << endl <<"1. agregar" << endl
-		<< "2. modificar" << endl << 
-		"3. eliminar" << endl <<
-		"4. buscar" << endl <<"5. defragmentar" << endl;
-		int respuesta = 0;
-		cin >> respuesta;
-		cin.ignore();
-		return respuesta;
+	cout << "*********O P E R A C I O N E S*********" << endl <<"1. agregar" << endl
+	<< "2. modificar" << endl << 
+	"3. eliminar" << endl <<
+	"4. buscar" << endl <<"5. defragmentar" << endl << "6. leer" << endl;
+	int respuesta = 0;
+	cin >> respuesta;
+	cin.ignore();
+	return respuesta;
 }
 
 bool exists_test (const std::string& name) {
-    if (FILE *file = fopen(name.c_str(), "r")) {
-        fclose(file);
-        return true;
-    } else {
-        return false;
-    }   
+	if (FILE *file = fopen(name.c_str(), "r")) {
+		fclose(file);
+		cout << "soy true" << endl;
+		return true;
+	} else {
+		cout << "soy false" << endl;
+		return false;
+	}   
 }
