@@ -11,14 +11,15 @@ class Header{
  protected:
  	int size;
  	bool dirty;
-	int al;
+	long int al;
  public:
 	Header();
 	int getSize()const;
 	int getAl()const;
 	void Size();
+	void Decrease();
 	void Clean();
-	void setAl(int position);
+	void setAl(long int position);
 	string toString();
 	string PrintAl();
 };

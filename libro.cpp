@@ -40,17 +40,17 @@ string Libro::getIsbn(){
 	return retval;
 }
 
-string Libro::getNombre()const{
+string Libro::getNombre(){
 	string retval(nombre);
 	return retval;
 }
 
-string Libro::getAutor()const{
+string Libro::getAutor(){
 	string retval(autor);
 	return retval;
 }
 
-string Libro::getEditorial()const{
+string Libro::getEditorial(){
 	string retval(editorial);
 	return retval;
 }

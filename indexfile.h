@@ -16,7 +16,7 @@ class Index_File{
  public:
 	Index_File();
 	void Add(Nodo node);
-	int Find(long long int key);
+	int Find(long int key);
 	void Reindex();
 	void Order();
 };

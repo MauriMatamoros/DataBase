@@ -30,8 +30,13 @@ int Header::getAl()const{
 void Header::Size(){
 	this->size = this->size + 1;
 }
-void Header::setAl(int position){
-	this->al = al;
+
+void Header::Decrease(){
+	this->size = this->size - 1;
+}
+
+void Header::setAl(long int position){
+	this->al = position;
 }
 
 string Header::toString(){

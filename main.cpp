@@ -56,14 +56,35 @@ int main(int argc, char *argv[]){
 						archivo.seekg(0,ios::beg);
 						Header header;
 						archivo.read(reinterpret_cast<char*>(&header),sizeof(Header));
-						header.Size();
-						archivo.seekp(0,ios::beg);
-						archivo.write((char*)&header,sizeof(Header));
-						archivo.seekp(0,ios::end);
-						cout << "Existo y excribieron en mi" << endl;
-						archivo.write((char*)&temp,sizeof(Libro));
-						archivo.flush();
-						archivo.close();
+						if (header.getAl() != -1)
+						{
+							archivo.seekg(0,ios::beg);
+							Header header;
+							archivo.read(reinterpret_cast<char*>(&header),sizeof(Header));
+							archivo.seekp(header.getAl(),ios::beg);
+							Libro tempo;
+							long int posicion = archivo.tellp();
+							archivo.read(reinterpret_cast<char*>(&temp),sizeof(Libro));
+							header.setAl(stoll(tempo.getEditorial()));
+							archivo.seekp(0,ios::beg);
+							archivo.write((char*)&header,sizeof(Header));
+							archivo.seekp(header.getAl(),ios::beg);
+							archivo.write((char*)&temp,sizeof(Libro));
+							archivo.flush();
+							archivo.close();
+						}else{
+							archivo.seekg(0,ios::beg);
+							Header header;
+							archivo.read(reinterpret_cast<char*>(&header),sizeof(Header));
+							header.Size();
+							archivo.seekp(0,ios::beg);
+							archivo.write((char*)&header,sizeof(Header));
+							archivo.seekp(0,ios::end);
+							cout << "Existo y excribieron en mi" << endl;
+							archivo.write((char*)&temp,sizeof(Libro));
+							archivo.flush();
+							archivo.close();
+						}
 					}
 				}else{
 					fstream archivo("libro.bin", ios::out | ios::binary);
@@ -84,10 +105,42 @@ int main(int argc, char *argv[]){
 
 			}else if (option == 3)//eliminar
 			{
-					/* code */
-					char isbn[14];
-					cout << "Ingrese isbn: " << endl;
-					cin.getline(isbn,14);
+				/* code */
+				char isbn[14];
+				cout << "Ingrese isbn: " << endl;
+				cin.getline(isbn,14);
+				fstream archivo("libro.bin",ios::in| ios::out | ios::binary);
+				Header header;
+				archivo.read(reinterpret_cast<char*>(&header),sizeof(Header));
+				cout << "Header: " << header.toString() << endl;
+				string tocompare(isbn);
+				while (true){
+					Libro tempo;
+					long int ofset = archivo.tellp();
+					archivo.read(reinterpret_cast<char*>(&tempo),sizeof(Libro));
+					if(archivo.eof()|| tocompare.compare(tempo.getIsbn()) == 0){
+						tocompare[0]='*';
+						tempo.setIsbn(const_cast<char*>(tocompare.c_str()));
+						if (header.getAl() != -1)
+						{
+							/* code */
+							string longint = std::to_string(header.getAl());
+							tempo.setEditorial(const_cast<char*>(longint.c_str()));
+						}
+
+						archivo.seekg(0,ios::beg);
+						//Header header;
+						archivo.read(reinterpret_cast<char*>(&header),sizeof(Header));
+						header.Decrease();
+						header.setAl(ofset);
+						archivo.seekg(0,ios::beg);
+						archivo.write((char*)&header,sizeof(Header));
+						archivo.seekp(ofset, ios::beg);
+						archivo.write((char*)&tempo,sizeof(Libro));
+						break;
+					}
+				}
+				archivo.close();
 			}else if (option == 4)//buscar
 			{
 				/* code */
