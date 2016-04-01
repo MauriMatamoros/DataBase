@@ -13,6 +13,7 @@ using namespace std;
 
 int menu();
 int menu2();
+bool exists_test(const std::string& name);
 Libro libros();
 
 int main(int argc, char *argv[]){
@@ -46,13 +47,23 @@ int main(int argc, char *argv[]){
 				*/
 				//debugging
 				Libro temp(isbn,nombre,autor,editorial);
-				fstream archivo("libro.bin",ios::in|ios::out|ios::binary);
-				if(archivo.good()){
-					cout << sizeof(Libro) << endl;
-					cout << sizeof(temp) << endl;
+				if (exists_test("libro.bin"))//check si existe el archivo
+				{
+					fstream archivo("libro.bin",ios::in | ios::out | ios::binary);
+					if(archivo.good()){
+					cout << "Existo y excribieron en mi" << endl;
 					archivo.write((char*)&temp,sizeof(Libro));//Escribir en archivo
 					archivo.flush();
 					archivo.close();
+				}
+				}else{
+					fstream archivo("libro.bin", ios::out);
+					if(archivo.good()){
+						cout << "No existo pero me crearon" << endl;
+						archivo.write((char*)&temp,sizeof(Libro));//Escribir en archivo
+						archivo.flush();
+						archivo.close();
+					}
 				}
 
 			}else if (option == 2)//modificar
@@ -121,16 +132,16 @@ int main(int argc, char *argv[]){
 }
 	
 
-	int menu(){
+int menu(){
 		cout << "**********M E N U**********" << endl << "1. libros" << endl
 		<< "2. editoriales" << endl << "3. terminar" << endl;
 		int respuesta = 0;
 		cin >> respuesta;
 		cin.ignore();
 		return respuesta;
-	}
+}
 
-	int menu2(){
+int menu2(){
 		cout << "*********O P E R A C I O N E S*********" << endl <<"1. agregar" << endl
 		<< "2. modificar" << endl << 
 		"3. eliminar" << endl <<
@@ -139,5 +150,13 @@ int main(int argc, char *argv[]){
 		cin >> respuesta;
 		cin.ignore();
 		return respuesta;
-	}
+}
 
+bool exists_test (const std::string& name) {
+    if (FILE *file = fopen(name.c_str(), "r")) {
+        fclose(file);
+        return true;
+    } else {
+        return false;
+    }   
+}
