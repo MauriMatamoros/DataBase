@@ -64,8 +64,16 @@ int main(int argc, char *argv[]){
 							archivo.seekp(header.getAl(),ios::beg);
 							Libro tempo;
 							long int posicion = archivo.tellp();
-							archivo.read(reinterpret_cast<char*>(&temp),sizeof(Libro));
-							header.setAl(stoll(tempo.getEditorial()));
+							archivo.read(reinterpret_cast<char*>(&tempo),sizeof(Libro));
+							long int chancho = -1;
+							if (header.getAl() == chancho )
+							{
+								//cout << "entro chancho" << endl;
+								header.setAl(-1);
+							}else{
+								//cout << "no soy chancho" << endl;
+								header.setAl(stoll(tempo.getEditorial()));
+							}
 							archivo.seekp(0,ios::beg);
 							archivo.write((char*)&header,sizeof(Header));
 							archivo.seekp(header.getAl(),ios::beg);
@@ -88,9 +96,9 @@ int main(int argc, char *argv[]){
 					}
 				}else{
 					fstream archivo("libro.bin", ios::out | ios::binary);
-					cout << "entro no existe" << endl;
+					//cout << "entro no existe" << endl;
 					if(archivo.good()){
-						cout << "No existo pero me crearon" << endl;
+						//cout << "No existo pero me crearon" << endl;
 						Header header;
 						header.Size();
 						archivo.write((char*)&header,sizeof(Header));
@@ -126,8 +134,10 @@ int main(int argc, char *argv[]){
 							/* code */
 							string longint = std::to_string(header.getAl());
 							tempo.setEditorial(const_cast<char*>(longint.c_str()));
+						}else{
+							string longint = std::to_string(-2);
+							tempo.setEditorial(const_cast<char*>(longint.c_str()));
 						}
-
 						archivo.seekg(0,ios::beg);
 						//Header header;
 						archivo.read(reinterpret_cast<char*>(&header),sizeof(Header));
@@ -140,6 +150,7 @@ int main(int argc, char *argv[]){
 						break;
 					}
 				}
+				archivo.flush();
 				archivo.close();
 			}else if (option == 4)//buscar
 			{
@@ -240,10 +251,10 @@ int menu2(){
 bool exists_test (const std::string& name) {
 	if (FILE *file = fopen(name.c_str(), "r")) {
 		fclose(file);
-		cout << "soy true" << endl;
+		//cout << "soy true" << endl;
 		return true;
 	} else {
-		cout << "soy false" << endl;
+		//cout << "soy false" << endl;
 		return false;
 	}   
 }
